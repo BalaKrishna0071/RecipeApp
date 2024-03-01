@@ -46,10 +46,11 @@ public class MainActivity extends AppCompatActivity {
         );
         arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
         spinner.setAdapter(arrayAdapter);
+        spinner.setOnItemSelectedListener(spinnerSelectedListner);
 
         manager = new RequestManager(this);
-        manager.getRandomRecipes(randomRecipeResponseListener);
-        dialog.show();
+//        manager.getRandomRecipes(randomRecipeResponseListener);
+//        dialog.show();
 
     }
     private  final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
@@ -67,9 +68,17 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,message, Toast.LENGTH_SHORT);
         }
     };
-    private final AdapterView.OnItemClickListener spinnerSelectedListner = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemSelectedListener spinnerSelectedListner = new AdapterView.OnItemSelectedListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        tags.clear();
+        tags.add(adapterView.getSelectedItem().toString());
+        manager.getRandomRecipes(randomRecipeResponseListener, tags);
+        dialog.show();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
 
         }
     };
