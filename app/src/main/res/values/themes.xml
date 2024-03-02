@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.RecipeApp" parent="Base.Theme.RecipeApp" />
+    <item name="editTextColor">@color/white</item>
+    <item name="textColorHintt" >@color/white</item>
 </resources>
