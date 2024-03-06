@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.recipeapp.Adapter.RandomRecipeAdapter;
 import com.example.recipeapp.Listners.RandomRecipeResponseListener;
+import com.example.recipeapp.Listners.RecipeClickListner;
 import com.example.recipeapp.Models.RandomRecipeApiResponse;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
-            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes);
+            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes,recipeClickListner);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
 
@@ -99,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
+        }
+    };
+    private  final RecipeClickListner recipeClickListner = new RecipeClickListner() {
+        @Override
+        public void onRecipeClicked(String id) {
+                Toast.makeText(MainActivity.this,id,Toast.LENGTH_SHORT).show();
         }
     };
 }
