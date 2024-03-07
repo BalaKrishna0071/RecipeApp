@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
     private  final RecipeClickListner recipeClickListner = new RecipeClickListner() {
         @Override
         public void onRecipeClicked(String id) {
-                Toast.makeText(MainActivity.this,id,Toast.LENGTH_SHORT).show();
+              startActivity(new Intent(MainActivity.this, RecipeDetailsActivity.class)
+                      .putExtra("id",id));
         }
     };
 }

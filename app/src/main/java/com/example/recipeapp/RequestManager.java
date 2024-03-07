@@ -3,7 +3,9 @@ package com.example.recipeapp;
 import android.content.Context;
 
 import com.example.recipeapp.Listners.RandomRecipeResponseListener;
+import com.example.recipeapp.Listners.RecipeDetailsListener;
 import com.example.recipeapp.Models.RandomRecipeApiResponse;
+import com.example.recipeapp.Models.RecipeDetailsResponse;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RequestManager {
@@ -49,7 +52,25 @@ public class RequestManager {
             }
         });
     }
+        public void getRecipeDetails(RecipeDetailsListener listener, int id){
+        CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
+        Call<RecipeDetailsResponse> call = callRecipeDetails.callRecipeDetails(id, context.getString(R.string.api_key));
+        call.enqueue(new Callback<RecipeDetailsResponse>() {
+            @Override
+            public void onResponse(Call<RecipeDetailsResponse> call, Response<RecipeDetailsResponse> response) {
+                if(!response.isSuccessful()){
+                    listener.didError(response.message());
+                    return;
+                }
+                listener.didFetch(response.body(), response.message());
+            }
 
+            @Override
+            public void onFailure(Call<RecipeDetailsResponse> call, Throwable t) {
+            listener.didError(t.getMessage());
+            }
+        });
+        }
     private interface  CallRandomRecipes{
 
             @GET("recipes/random")
@@ -58,5 +79,12 @@ public class RequestManager {
                     @Query("number") String number,
                     @Query("tags")List<String> tags
                     );
+    }
+    private  interface CallRecipeDetails{
+        @GET("recipes/{id}/information")
+        Call<RecipeDetailsResponse> callRecipeDetails(
+                @Path("id") int id,
+                @Query("APIKey") String apiKey
+        );
     }
 }
