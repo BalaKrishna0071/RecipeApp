@@ -55,7 +55,7 @@
 
             </ImageView>
             <TextView
-                android:id="@+id/textview_meal_summary"
+                android:id="@+id/textView_meal_summary"
                 android:text="Summary"
                 android:textColor="@color/white"
                 android:padding="8dp"
